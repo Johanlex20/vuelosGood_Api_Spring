@@ -24,4 +24,55 @@ public class Usuarios {
     @OneToOne
     @JoinColumn(name = "id_usuario_data", referencedColumnName = "id_usu_data")
     private UsuarioData idUsuarioData;
+
+    public Usuarios() {
+    }
+
+    public Usuarios(Integer idUsuario, LocalDate usuCreatedAt, LocalDate usuUpdateAt, Rol rol, UsuarioData idUsuarioData) {
+        this.idUsuario = idUsuario;
+        this.usuCreatedAt = usuCreatedAt;
+        this.usuUpdateAt = usuUpdateAt;
+        this.rol = rol;
+        this.idUsuarioData = idUsuarioData;
+    }
+
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public LocalDate getUsuCreatedAt() {
+        return usuCreatedAt;
+    }
+
+    public void setUsuCreatedAt(LocalDate usuCreatedAt) {
+        this.usuCreatedAt = usuCreatedAt;
+    }
+
+    public LocalDate getUsuUpdateAt() {
+        return usuUpdateAt;
+    }
+
+    public void setUsuUpdateAt(LocalDate usuUpdateAt) {
+        this.usuUpdateAt = usuUpdateAt;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
+    public UsuarioData getIdUsuarioData() {
+        return idUsuarioData;
+    }
+
+    public void setIdUsuarioData(UsuarioData idUsuarioData) {
+        this.idUsuarioData = idUsuarioData;
+    }
 }
