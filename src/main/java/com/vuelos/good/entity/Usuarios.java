@@ -1,4 +1,5 @@
 package com.vuelos.good.entity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
@@ -23,6 +24,7 @@ public class Usuarios {
 
     @OneToOne
     @JoinColumn(name = "id_usuario_data", referencedColumnName = "id_usu_data")
+    @JsonIgnoreProperties("usuario")
     private UsuarioData idUsuarioData;
 
     public Usuarios() {

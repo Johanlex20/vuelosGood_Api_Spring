@@ -44,9 +44,9 @@ public class UsuService implements iUsuService {
     @Override
     public Usuarios save(Usuarios usuario) {
 
-        Direccion dir = saveDireccion(usuario.getIdUsuarioData().getIdDireccion());
+            Direccion dir = saveDireccion(usuario.getIdUsuarioData().getIdDireccion());
 
-        UsuarioData newUsu = saveUsuData(usuario.getIdUsuarioData(), dir);
+            UsuarioData newUsu = saveUsuData(usuario.getIdUsuarioData(), dir);
             usuarioDataRespository.save(newUsu);
 
             usuario.setRol(usuario.getRol());

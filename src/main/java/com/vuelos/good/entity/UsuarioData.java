@@ -1,4 +1,5 @@
 package com.vuelos.good.entity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -30,6 +31,7 @@ public class UsuarioData {
     private Direccion idDireccion;
 
     @OneToOne(mappedBy = "idUsuarioData")
+    @JsonIgnoreProperties("idUsuarioData")
     private Usuarios usuario;
 
     public UsuarioData() {
