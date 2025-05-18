@@ -1,5 +1,6 @@
 package com.vuelos.good.services;
 import com.vuelos.good.entity.Direccion;
+import com.vuelos.good.entity.Rol;
 import com.vuelos.good.entity.UsuarioData;
 import com.vuelos.good.entity.Usuarios;
 import com.vuelos.good.repository.iUsuRepository.iDireccionRepository;
@@ -45,11 +46,12 @@ public class UsuService implements iUsuService {
     public Usuarios save(Usuarios usuario) {
 
             Direccion dir = saveDireccion(usuario.getIdUsuarioData().getIdDireccion());
+            Rol rol = getRolById(usuario.getRol().getIdRol());
 
             UsuarioData newUsu = saveUsuData(usuario.getIdUsuarioData(), dir);
             usuarioDataRespository.save(newUsu);
 
-            usuario.setRol(usuario.getRol());
+            usuario.setRol(rol);
             usuario.setIdUsuarioData(newUsu);
             usuario.setUsuCreatedAt(LocalDate.now());
 
@@ -76,10 +78,16 @@ public class UsuService implements iUsuService {
         return direccionRepository.save(newDireccion);
     }
 
+    public Rol getRolById(Integer idRol) {
+        return rolRepository.findById(idRol)
+                .orElseThrow(() -> new RuntimeException("Rol no encontrado con id: " + idRol));
+    }
+
     public UsuarioData saveUsuData(UsuarioData usuarioData, Direccion dir){
             UsuarioData  newUsu = new UsuarioData();
-            newUsu.setUsu_name(usuarioData.getUsu_name());
-            newUsu.setUsu_lastname(usuarioData.getUsu_lastname());
+            newUsu.setUsuName(usuarioData.getUsuName());
+            newUsu.setUsuLastname(usuarioData.getUsuLastname());
+            newUsu.setDocumento(usuarioData.getDocumento());
             newUsu.setEmail(usuarioData.getEmail());
             newUsu.setPassword(usuarioData.getPassword());
             newUsu.setCelular(usuarioData.getCelular());

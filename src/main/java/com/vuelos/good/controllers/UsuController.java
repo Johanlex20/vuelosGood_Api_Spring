@@ -10,6 +10,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/usuarios")
 public class UsuController {
@@ -25,6 +27,11 @@ public class UsuController {
     @GetMapping
     public Page<Usuarios> paginate(@PageableDefault(sort = "usuCreatedAt", direction = Sort.Direction.ASC, size = 2) Pageable pageable){
         return usuService.paginate(pageable);
+    }
+
+    @GetMapping(value = "/list")
+    public List<Usuarios> findAll() {
+        return usuService.findAll();
     }
 
     @PostMapping

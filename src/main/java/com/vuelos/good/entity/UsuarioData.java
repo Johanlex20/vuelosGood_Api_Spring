@@ -10,9 +10,14 @@ public class UsuarioData {
     @Column(name = "id_usu_data")
     private Long idUsuData;
 
-    private String usu_name;
+    @Column(name = "usu_name")
+    private String usuName;
 
-    private String usu_lastname;
+    @Column(name = "usu_lastname")
+    private String usuLastname;
+
+    @Column(name = "usu_documento")
+    private String documento;
 
     private String email;
 
@@ -36,10 +41,12 @@ public class UsuarioData {
 
     public UsuarioData() {
     }
-    public UsuarioData(Long idUsuData, String usu_name, String usu_lastname, String email, String password, String celular, String imgUsu, String estadoUsu, Direccion idDireccion, Usuarios usuario) {
+
+    public UsuarioData(Long idUsuData, String usuName, String usuLastname, String documento, String email, String password, String celular, String imgUsu, String estadoUsu, Direccion idDireccion, Usuarios usuario) {
         this.idUsuData = idUsuData;
-        this.usu_name = usu_name;
-        this.usu_lastname = usu_lastname;
+        this.usuName = usuName;
+        this.usuLastname = usuLastname;
+        this.documento = documento;
         this.email = email;
         this.password = password;
         this.celular = celular;
@@ -57,20 +64,28 @@ public class UsuarioData {
         this.idUsuData = idUsuData;
     }
 
-    public String getUsu_name() {
-        return usu_name;
+    public String getUsuName() {
+        return usuName;
     }
 
-    public void setUsu_name(String usu_name) {
-        this.usu_name = usu_name;
+    public void setUsuName(String usuName) {
+        this.usuName = usuName;
     }
 
-    public String getUsu_lastname() {
-        return usu_lastname;
+    public String getUsuLastname() {
+        return usuLastname;
     }
 
-    public void setUsu_lastname(String usu_lastname) {
-        this.usu_lastname = usu_lastname;
+    public void setUsuLastname(String usuLastname) {
+        this.usuLastname = usuLastname;
+    }
+
+    public String getDocumento() {
+        return documento;
+    }
+
+    public void setDocumento(String documento) {
+        this.documento = documento;
     }
 
     public String getEmail() {
