@@ -1,5 +1,4 @@
 package com.vuelos.good.controllers;
-
 import com.vuelos.good.entity.Usuarios;
 import com.vuelos.good.services.iService.iUsuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -35,8 +32,12 @@ public class UsuController {
     }
 
     @PostMapping
-    public ResponseEntity<Usuarios> crearUsuario(@RequestBody Usuarios usuario) {
-        Usuarios nuevoUsuario = usuService.save(usuario);
-        return ResponseEntity.ok(nuevoUsuario);
+    public Usuarios crearUsuario(@RequestBody Usuarios usuario) {
+        return usuService.save(usuario);
+    }
+
+    @PutMapping(value = "/{id}")
+    public Usuarios update(@PathVariable(value = "id") Integer id, @RequestBody Usuarios usuario) {
+        return usuService.update(id, usuario);
     }
 }

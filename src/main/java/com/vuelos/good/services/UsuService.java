@@ -59,8 +59,19 @@ public class UsuService implements iUsuService {
     }
 
     @Override
-    public Usuarios update(Integer id, Usuarios usuarios) {
-        return null;
+    public Usuarios update(Integer id, Usuarios usuario) {
+
+        Direccion dir = saveDireccion(usuario.getIdUsuarioData().getIdDireccion());
+        Rol rol = getRolById(usuario.getRol().getIdRol());
+
+        Usuarios usu = findById(id);
+        UsuarioData updateUsu = updateUsuData(usu.getIdUsuarioData(), usuario.getIdUsuarioData(), dir);
+
+        usu.setRol(rol);
+        usu.setIdUsuarioData(updateUsu);
+        usu.setUsuUpdateAt(LocalDate.now());
+
+        return usuRepository.save(usu);
     }
 
     @Override
@@ -69,7 +80,7 @@ public class UsuService implements iUsuService {
     }
 
 
-    public Direccion saveDireccion(Direccion direccion) {
+    private Direccion saveDireccion(Direccion direccion) {
         Direccion newDireccion = new Direccion();
         newDireccion.setDireccion(direccion.getDireccion());
         newDireccion.setCiudad(direccion.getCiudad());
@@ -78,12 +89,12 @@ public class UsuService implements iUsuService {
         return direccionRepository.save(newDireccion);
     }
 
-    public Rol getRolById(Integer idRol) {
+    private Rol getRolById(Integer idRol) {
         return rolRepository.findById(idRol)
                 .orElseThrow(() -> new RuntimeException("Rol no encontrado con id: " + idRol));
     }
 
-    public UsuarioData saveUsuData(UsuarioData usuarioData, Direccion dir){
+    private UsuarioData saveUsuData(UsuarioData usuarioData, Direccion dir){
             UsuarioData  newUsu = new UsuarioData();
             newUsu.setUsuName(usuarioData.getUsuName());
             newUsu.setUsuLastname(usuarioData.getUsuLastname());
@@ -95,5 +106,19 @@ public class UsuService implements iUsuService {
             newUsu.setEstadoUsu(usuarioData.getEstadoUsu());
             newUsu.setIdDireccion(dir);
             return usuarioDataRespository.save(newUsu);
+    }
+
+    private UsuarioData updateUsuData(UsuarioData updateUsu, UsuarioData usuarioData, Direccion dir){
+        updateUsu.setUsuName(usuarioData.getUsuName());
+        updateUsu.setUsuLastname(usuarioData.getUsuLastname());
+        updateUsu.setDocumento(usuarioData.getDocumento());
+        updateUsu.setEmail(usuarioData.getEmail());
+        updateUsu.setPassword(usuarioData.getPassword());
+        updateUsu.setCelular(usuarioData.getCelular());
+        updateUsu.setImgUsu(usuarioData.getImgUsu());
+        updateUsu.setEstadoUsu(usuarioData.getEstadoUsu());
+        updateUsu.setIdDireccion(dir);
+
+        return usuarioDataRespository.save(updateUsu);
     }
 }
