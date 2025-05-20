@@ -31,11 +31,11 @@ public class UsuarioData {
     @Column(name = "estado_usu")
     private String estadoUsu;
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id_direccion")
     private Direccion idDireccion;
 
-    @OneToOne(mappedBy = "idUsuarioData")
+    @OneToOne(mappedBy = "idUsuarioData" )
     @JsonIgnoreProperties("idUsuarioData")
     private Usuarios usuario;
 

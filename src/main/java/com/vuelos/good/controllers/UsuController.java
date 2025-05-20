@@ -40,4 +40,14 @@ public class UsuController {
     public Usuarios update(@PathVariable(value = "id") Integer id, @RequestBody Usuarios usuario) {
         return usuService.update(id, usuario);
     }
+
+    @DeleteMapping(value = "/{id}")
+    private Boolean delete(@PathVariable(value = "id") Integer id) {
+        return usuService.delete(id);
+    }
+
+    @PutMapping(value = "/estado/{id}")
+    public Usuarios usuarioEstado(@PathVariable(value = "id") Integer id){
+        return usuService.usuChangeEstado(id);
+    }
 }

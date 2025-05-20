@@ -76,7 +76,17 @@ public class UsuService implements iUsuService {
 
     @Override
     public Boolean delete(Integer id) {
-        return null;
+        Usuarios usu = findById(id);
+        usuRepository.deleteById(id);
+        System.out.println("Usuario "+ usu.getIdUsuarioData().getUsuName()+" eliminado con exito!");
+        return true;
+    }
+
+    public Usuarios usuChangeEstado(Integer id){
+        Usuarios usu = findById(id);
+        usu.getIdUsuarioData().setEstadoUsu("I");
+        usu.setUsuUpdateAt(LocalDate.now());
+        return usuRepository.save(usu);
     }
 
 

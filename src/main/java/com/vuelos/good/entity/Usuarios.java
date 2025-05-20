@@ -22,7 +22,7 @@ public class Usuarios {
     @JoinColumn(name = "id_rol")
     private Rol rol;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id_usuario_data", referencedColumnName = "id_usu_data")
     @JsonIgnoreProperties("usuario")
     private UsuarioData idUsuarioData;

@@ -17,4 +17,6 @@ public interface iUsuService {
 
     Boolean delete(Integer id);
 
+    Usuarios usuChangeEstado(Integer id);
+
 }
