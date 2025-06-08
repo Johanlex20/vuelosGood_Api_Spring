@@ -131,4 +131,22 @@ public class UsuService implements iUsuService {
 
         return usuarioDataRespository.save(updateUsu);
     }
+
+    public List<Usuarios> findUsuariosActivos() {
+        return usuRepository.findByIdUsuarioData_EstadoUsu("A");
+    }
+
+    public List<Usuarios> findUsuariosInActivos(){
+        return usuRepository.findByIdUsuarioDataEstadoInactivo();
+    }
+
+    @Override
+    public Page<Usuarios> paginateUsuActivos(Pageable pageable) {
+        return usuRepository.findByIdUsuarioData_EstadoUsu("A",pageable);
+    }
+
+    @Override
+    public Page<Usuarios> paginateUsuInActivos(Pageable pageable) {
+        return  usuRepository.findByIdUsuarioDataEstadoInactivo(pageable);
+    }
 }

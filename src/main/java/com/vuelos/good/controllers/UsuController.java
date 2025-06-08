@@ -50,4 +50,24 @@ public class UsuController {
     public Usuarios usuarioEstado(@PathVariable(value = "id") Integer id){
         return usuService.usuChangeEstado(id);
     }
+
+    @GetMapping(value = "/list/active")
+    public List<Usuarios> listarUsuActivos(){
+        return usuService.findUsuariosActivos();
+    }
+
+    @GetMapping(value = "/list/inActive")
+    public List<Usuarios> listUsuariosInActivos(){
+        return usuService.findUsuariosInActivos();
+    }
+
+    @GetMapping(value = "/active")
+    public Page<Usuarios> pageUsuActivos(@PageableDefault(sort = "usuCreatedAt", direction = Sort.Direction.ASC, size = 2) Pageable pageable){
+        return usuService.paginateUsuActivos(pageable);
+    }
+
+    @GetMapping(value = "/inActive")
+    public Page<Usuarios> pageUsuInActivos(@PageableDefault(sort = "usuCreatedAt", direction = Sort.Direction.ASC, size = 2) Pageable pageable){
+        return usuService.paginateUsuInActivos(pageable);
+    }
 }

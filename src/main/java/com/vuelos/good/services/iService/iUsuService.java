@@ -19,4 +19,10 @@ public interface iUsuService {
 
     Usuarios usuChangeEstado(Integer id);
 
+    List<Usuarios> findUsuariosActivos();
+
+    List<Usuarios> findUsuariosInActivos();
+
+    Page<Usuarios> paginateUsuActivos(Pageable pageable);
+    Page<Usuarios> paginateUsuInActivos(Pageable pageable);
 }
