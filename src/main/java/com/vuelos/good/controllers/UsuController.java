@@ -2,11 +2,13 @@ package com.vuelos.good.controllers;
 import com.vuelos.good.dtos.UsuRequestDto;
 import com.vuelos.good.entity.Usuarios;
 import com.vuelos.good.services.iService.iUsuService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -33,12 +35,12 @@ public class UsuController {
     }
 
     @PostMapping
-    public Usuarios crearUsuario(@RequestBody UsuRequestDto usuRequestDto ) {
+    public Usuarios crearUsuario(@RequestBody @Valid UsuRequestDto usuRequestDto ) {
         return usuService.save(usuRequestDto);
     }
 
     @PutMapping(value = "/{id}")
-    public Usuarios update(@PathVariable(value = "id") Integer id, @RequestBody UsuRequestDto usuRequestDto) {
+    public Usuarios update(@PathVariable(value = "id") Integer id, @RequestBody @Valid UsuRequestDto usuRequestDto) {
         return usuService.update(id, usuRequestDto);
     }
 

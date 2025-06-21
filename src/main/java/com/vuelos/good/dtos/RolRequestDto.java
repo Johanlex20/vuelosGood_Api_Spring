@@ -1,10 +1,18 @@
 package com.vuelos.good.dtos;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 public class RolRequestDto {
 
     private Integer idRol;
+
+    @NotEmpty
+    @Size(max = 3, message = "Rol puede tener maximo 3 caracteres!")
     private String rol;
+
+    @NotEmpty
     private String descripcion;
+    @NotEmpty
     private String estadoRol;
 
     public Integer getIdRol() {

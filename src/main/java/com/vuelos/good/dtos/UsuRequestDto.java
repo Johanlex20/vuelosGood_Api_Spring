@@ -1,4 +1,6 @@
 package com.vuelos.good.dtos;
+import jakarta.validation.Valid;
+
 import java.time.LocalDate;
 
 public class UsuRequestDto {
@@ -6,7 +8,9 @@ public class UsuRequestDto {
     private Integer idUsuario;
     private LocalDate usuCreatedAt;
     private LocalDate usuUpdateAt;
+    @Valid
     private RolRequestDto rolDto;
+    @Valid
     private UsuDataRequestDto usuarioDataDto;
 
     public Integer getIdUsuario() {
