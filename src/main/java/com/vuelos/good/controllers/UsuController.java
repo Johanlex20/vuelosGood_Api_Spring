@@ -1,4 +1,5 @@
 package com.vuelos.good.controllers;
+import com.vuelos.good.dtos.UsuRequestDto;
 import com.vuelos.good.entity.Usuarios;
 import com.vuelos.good.services.iService.iUsuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +33,13 @@ public class UsuController {
     }
 
     @PostMapping
-    public Usuarios crearUsuario(@RequestBody Usuarios usuario) {
-        return usuService.save(usuario);
+    public Usuarios crearUsuario(@RequestBody UsuRequestDto usuRequestDto ) {
+        return usuService.save(usuRequestDto);
     }
 
     @PutMapping(value = "/{id}")
-    public Usuarios update(@PathVariable(value = "id") Integer id, @RequestBody Usuarios usuario) {
-        return usuService.update(id, usuario);
+    public Usuarios update(@PathVariable(value = "id") Integer id, @RequestBody UsuRequestDto usuRequestDto) {
+        return usuService.update(id, usuRequestDto);
     }
 
     @DeleteMapping(value = "/{id}")
