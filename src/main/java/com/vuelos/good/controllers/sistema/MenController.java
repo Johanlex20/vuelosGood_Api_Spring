@@ -1,4 +1,5 @@
 package com.vuelos.good.controllers.sistema;
+import com.vuelos.good.dtos.sistema.MensajeRequestDto;
 import com.vuelos.good.entity.sistema.Mensaje;
 import com.vuelos.good.services.iService.sistema.iMensajeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +32,13 @@ public class MenController {
     }
 
     @PostMapping
-    Mensaje save(@RequestBody Mensaje mensaje){
-        return mensajeService.save(mensaje);
+    Mensaje save(@RequestBody MensajeRequestDto mensajeDto){
+        return mensajeService.save(mensajeDto);
     }
 
     @PutMapping(value = "/{id}")
-    Mensaje update(@PathVariable(value = "id") Integer id, @RequestBody Mensaje mensaje){
-        return mensajeService.update(id,mensaje);
+    Mensaje update(@PathVariable(value = "id") Integer id, @RequestBody MensajeRequestDto mensajeDto){
+        return mensajeService.update(id,mensajeDto);
     }
 
     @DeleteMapping(value = "/{id}")

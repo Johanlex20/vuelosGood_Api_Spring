@@ -1,4 +1,5 @@
 package com.vuelos.good.services.iService.sistema;
+import com.vuelos.good.dtos.sistema.MensajeRequestDto;
 import com.vuelos.good.entity.sistema.Mensaje;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,9 +12,9 @@ public interface iMensajeService {
 
     Mensaje findById(Integer id);
 
-    Mensaje save(Mensaje mensaje);
+    Mensaje save(MensajeRequestDto mensajeDto);
 
-    Mensaje update(Integer id, Mensaje mensaje);
+    Mensaje update(Integer id, MensajeRequestDto mensajeDto);
 
     Boolean delete(Integer id);
 

@@ -1,4 +1,5 @@
 package com.vuelos.good.services.sistema;
+import com.vuelos.good.dtos.sistema.MensajeRequestDto;
 import com.vuelos.good.entity.sistema.Mensaje;
 import com.vuelos.good.exceptions.BadRequestException;
 import com.vuelos.good.exceptions.ResourcetNotFoundRequestException;
@@ -34,15 +35,15 @@ public class MensajeServices implements iMensajeService {
     }
 
     @Override
-    public Mensaje save(Mensaje mensaje) {
+    public Mensaje save(MensajeRequestDto mensajeDto) {
         Mensaje men = null;
         try{
             men = new Mensaje();
-            men.setCodigo(mensaje.getCodigo());
-            men.setEstadoMensaje(mensaje.getEstadoMensaje());
-            men.setMensaje(mensaje.getMensaje());
-            men.setMenDescripcion(mensaje.getMenDescripcion());
-            men.setTipo(mensaje.getTipo());
+            men.setCodigo(mensajeDto.getCodigo());
+            men.setEstadoMensaje(mensajeDto.getEstadoMensaje());
+            men.setMensaje(mensajeDto.getMensaje());
+            men.setMenDescripcion(mensajeDto.getMenDescripcion());
+            men.setTipo(mensajeDto.getTipo());
             men.setMenCreatedAt(LocalDate.now());
         }catch (DataAccessException e){
             throw new BadRequestException("Error: Al crear Mensaje Del Sistema!", e);
@@ -51,15 +52,15 @@ public class MensajeServices implements iMensajeService {
     }
 
     @Override
-    public Mensaje update(Integer id, Mensaje mensaje) {
+    public Mensaje update(Integer id, MensajeRequestDto mensajeDto) {
         Mensaje men = findById(id);
         try{
             if(men != null){
-                men.setCodigo(mensaje.getCodigo());
-                men.setEstadoMensaje(mensaje.getEstadoMensaje());
-                men.setMensaje(mensaje.getMensaje());
-                men.setMenDescripcion(mensaje.getMenDescripcion());
-                men.setTipo(mensaje.getTipo());
+                men.setCodigo(mensajeDto.getCodigo());
+                men.setEstadoMensaje(mensajeDto.getEstadoMensaje());
+                men.setMensaje(mensajeDto.getMensaje());
+                men.setMenDescripcion(mensajeDto.getMenDescripcion());
+                men.setTipo(mensajeDto.getTipo());
                 men.setMenUpdatedAt(LocalDate.now());
             }else {
                 throw new BadRequestException("ERROR: Actualizar Mensaje Del Sistema!");
