@@ -6,6 +6,7 @@ import com.vuelos.good.entity.Direccion;
 import com.vuelos.good.entity.Rol;
 import com.vuelos.good.entity.UsuarioData;
 import com.vuelos.good.entity.Usuarios;
+import com.vuelos.good.exceptions.ResourcetNotFoundRequestException;
 import com.vuelos.good.repository.iUsuRepository.iDireccionRepository;
 import com.vuelos.good.repository.iUsuRepository.iRolRepository;
 import com.vuelos.good.repository.iUsuRepository.iUsuRepository;
@@ -42,7 +43,7 @@ public class UsuService implements iUsuService {
 
     @Override
     public Usuarios findById(Integer id) {
-        return usuRepository.findById(id).orElseThrow(()-> new RuntimeException("ERROR ID: Id no encontrado en la base de datos! "));
+        return usuRepository.findById(id).orElseThrow(()-> new ResourcetNotFoundRequestException("ERROR ID: Id no encontrado en la base de datos!"));
     }
 
     @Override
@@ -105,7 +106,7 @@ public class UsuService implements iUsuService {
 
     private Rol getRolById(Integer idRol) {
         return rolRepository.findById(idRol)
-                .orElseThrow(() -> new RuntimeException("Rol no encontrado con id: " + idRol));
+                .orElseThrow(() -> new ResourcetNotFoundRequestException("Rol no encontrado con id: " + idRol));
     }
 
     private UsuarioData saveUsuData(UsuDataRequestDto usuDataRequestDto, Direccion dir){

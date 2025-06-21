@@ -1,6 +1,5 @@
 package com.vuelos.good.dtos;
 import jakarta.validation.Valid;
-
 import java.time.LocalDate;
 
 public class UsuRequestDto {

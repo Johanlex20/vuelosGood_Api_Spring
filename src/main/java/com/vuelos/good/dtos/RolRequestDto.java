@@ -6,13 +6,13 @@ public class RolRequestDto {
 
     private Integer idRol;
 
-    @NotEmpty
+    @NotEmpty(message = "Rol es necesario!")
     @Size(max = 3, message = "Rol puede tener maximo 3 caracteres!")
     private String rol;
 
-    @NotEmpty
+    @NotEmpty(message = "Descripcion es necesaria!")
     private String descripcion;
-    @NotEmpty
+    @NotEmpty(message = "Estado del Rol es necesario!")
     private String estadoRol;
 
     public Integer getIdRol() {

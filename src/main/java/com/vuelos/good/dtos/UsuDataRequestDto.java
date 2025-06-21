@@ -4,29 +4,30 @@ import jakarta.validation.constraints.*;
 
 public class UsuDataRequestDto {
 
-    @NotNull
+    @NotBlank(message = "Nombre es necesario!")
     @Size(min = 3, message = "Nombre debe tener almenos 3 caracteres!")
     @Size(max = 100, message = "Nombre debe tener maximo 100 caracteres!")
     private String usuName;
-    @NotNull
+
+    @NotBlank(message = "Apellido es necesario!")
     @Size(min = 3, message = "Apellido debe tener almenos 3 caracteres!")
     @Size(max = 100, message = "Apellido debe tener maximo 100 caracteres!")
     private String usuLastname;
-    @NotNull
+    @NotBlank(message = "Documento es necesario!")
     private String documento;
-    @NotNull
+    @NotNull(message = "Apellido es necesario!")
     @Email
     private String email;
-    @NotEmpty
+    @NotEmpty(message = "Contraseña es necesaria!")
     @Pattern(regexp = "[a-z0-9-]+")
     @Size(min = 5, message = "La contraseña debe tener al menos 5 caracteres!")
     private String password;
     @Pattern(regexp = "[0-9]+")
     @Size(min = 10, max = 10, message = "Celular debe tener 10 numeros!")
     private String celular;
-    @NotEmpty
+    @NotEmpty(message = "Imaganen necesaria")
     private String imgUsu;
-    @NotEmpty
+    @NotEmpty(message = "Estado es necesario")
     private String estadoUsu;
 
     @Valid
