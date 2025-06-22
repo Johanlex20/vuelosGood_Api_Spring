@@ -4,34 +4,35 @@ import jakarta.validation.constraints.*;
 
 public class UsuDataRequestDto {
 
-    @NotBlank(message = "Nombre es necesario!")
-    @Size(min = 3, message = "Nombre debe tener almenos 3 caracteres!")
-    @Size(max = 100, message = "Nombre debe tener maximo 100 caracteres!")
+    @NotBlank(message = "usu.vali.nombre.dto")
+    @Size(min = 3, message = "usu.vali.min.nombre.dto")
+    @Size(max = 100, message = "usu.vali.max.nombre.dto")
     private String usuName;
 
-    @NotBlank(message = "Apellido es necesario!")
-    @Size(min = 3, message = "Apellido debe tener almenos 3 caracteres!")
-    @Size(max = 100, message = "Apellido debe tener maximo 100 caracteres!")
+    @NotBlank(message = "usu.vali.apellido.dto")
+    @Size(min = 3, message = "usu.vali.min.apellido.dto")
+    @Size(max = 100, message = "usu.vali.max.apellido.dto")
     private String usuLastname;
-    @NotBlank(message = "Documento es necesario!")
+    @NotBlank(message = "usu.vali.documento.dto")
     private String documento;
-    @NotNull(message = "Apellido es necesario!")
-    @Email
+    @NotNull(message = "usu.vali.email.dto")
+    @Email(message = "usu.vali.email.formato.dto")
     private String email;
-    @NotEmpty(message = "Contraseña es necesaria!")
+    @NotEmpty(message = "usu.vali.password.dto")
     @Pattern(regexp = "[a-z0-9-]+")
-    @Size(min = 5, message = "La contraseña debe tener al menos 5 caracteres!")
+    @Size(min = 5, message = "usu.vali.min.password.dto")
     private String password;
     @Pattern(regexp = "[0-9]+")
-    @Size(min = 10, max = 10, message = "Celular debe tener 10 numeros!")
+    @NotEmpty(message = "usu.vali.celular.dto")
+    @Size(min = 10, max = 10, message = "usu.vali.min.celular.dto")
     private String celular;
-    @NotEmpty(message = "Imaganen necesaria")
+    @NotEmpty(message = "usu.vali.img.dto")
     private String imgUsu;
-    @NotEmpty(message = "Estado es necesario")
+    @NotEmpty(message = "usu.vali.estado.dto")
     private String estadoUsu;
 
     @Valid
-    @NotNull(message = "La dirección no puede ser nula")
+    @NotNull(message = "usu.vali.direccion.dto")
     private DireccionRequestDto direccionRequestDto;
 
     public String getUsuName() {

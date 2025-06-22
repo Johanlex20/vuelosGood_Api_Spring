@@ -31,7 +31,7 @@ public class MensajeServices implements iMensajeService {
 
     @Override
     public Mensaje findById(Integer id) {
-        return mensajeRepository.findById(id).orElseThrow(()-> new ResourcetNotFoundRequestException("Mensaje Id no encotrado!"));
+        return mensajeRepository.findById(id).orElseThrow(()-> new ResourcetNotFoundRequestException(getMensaje("men.error.id.mensaje.notFound","BASICO") + id));
     }
 
     @Override
@@ -46,7 +46,7 @@ public class MensajeServices implements iMensajeService {
             men.setTipo(mensajeDto.getTipo());
             men.setMenCreatedAt(LocalDate.now());
         }catch (DataAccessException e){
-            throw new BadRequestException("Error: Al crear Mensaje Del Sistema!", e);
+            throw new BadRequestException(getMensaje("men.error.created","BASICO"), e);
         }
         return mensajeRepository.save(men);
     }
@@ -63,10 +63,10 @@ public class MensajeServices implements iMensajeService {
                 men.setTipo(mensajeDto.getTipo());
                 men.setMenUpdatedAt(LocalDate.now());
             }else {
-                throw new BadRequestException("ERROR: Actualizar Mensaje Del Sistema!");
+                throw new BadRequestException(getMensaje("men.error.mensaje.updated","BASICO"));
             }
         }catch (DataAccessException e){
-            throw new BadRequestException("ERROR: Actualizar Mensaje Del Sistema!",e);
+            throw new BadRequestException(getMensaje("men.error.mensaje.updated","BASICO"),e);
         }
         return mensajeRepository.save(men);
     }
@@ -75,7 +75,24 @@ public class MensajeServices implements iMensajeService {
     public Boolean delete(Integer id) {
         Mensaje menDelete = findById(id);
         mensajeRepository.deleteById(menDelete.getIdMensaje());
-        System.out.println("Mensaje Del Sistema "+ menDelete.getIdMensaje()+" eliminado con exito!");
+        System.out.println(getMensaje("men.exito.mensaje.delete","BASICO")+" "+menDelete.getIdMensaje());
         return true;
     }
+
+    @Override
+    public String getMensaje(String codigo) {
+        return mensajeRepository.findByCodigo(codigo)
+                .map(Mensaje::getMensaje)
+                .orElse(getMensaje("men.notFound.mensaje","BASICO")+" "+ codigo);
+    }
+    @Override
+    public String getMensaje(String codigo, String tipo){
+        if (tipo != null && !tipo.isEmpty()) {
+            return mensajeRepository.findByCodigoAndTipo(codigo, tipo)
+                    .map(Mensaje::getMensaje)
+                    .orElseGet(() -> getMensaje(codigo));
+        }
+        return getMensaje(codigo);
+    }
+
 }

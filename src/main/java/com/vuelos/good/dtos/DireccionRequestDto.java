@@ -3,12 +3,12 @@ import jakarta.validation.constraints.NotBlank;
 
 public class DireccionRequestDto {
 
-    @NotBlank(message = "La dirección es obligatoria")
+    @NotBlank(message = "dir.vali.direccion.dto")
     private String direccion;
     private String codigoPostal;
-    @NotBlank(message = "El país es obligatorio")
+    @NotBlank(message = "dir.vali.pais.dto")
     private String pais;
-    @NotBlank(message = "La ciudad es obligatoria")
+    @NotBlank(message = "dir.vali.ciudad.dto")
     private String ciudad;
 
     public String getDireccion() {

@@ -18,4 +18,8 @@ public interface iMensajeService {
 
     Boolean delete(Integer id);
 
+    String getMensaje(String codigo);
+
+    String getMensaje(String codigo, String tipo);
+
 }

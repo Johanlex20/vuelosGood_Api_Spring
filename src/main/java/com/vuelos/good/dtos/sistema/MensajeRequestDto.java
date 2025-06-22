@@ -5,19 +5,19 @@ import jakarta.validation.constraints.NotNull;
 
 public class MensajeRequestDto {
 
-    @NotBlank(message = "Codigo Mensaje es necesario!")
+    @NotBlank(message = "men.vali.codigo.dto")
     private String codigo;
 
-    @NotBlank(message = "Mensaje es necesario!")
+    @NotBlank(message = "men.vali.mensaje.dto")
     private String mensaje;
 
-    @NotNull(message = "Tipo Mensaje es necesario!")
+    @NotNull(message = "men.vali.tipo.dto")
     private String tipo;
 
-    @NotNull(message = "Descripcion Mensaje es necesaria!")
+    @NotNull(message = "men.vali.descripcion.dto")
     private String menDescripcion;
 
-    @NotEmpty(message = "Estado Mensaje es necesario")
+    @NotEmpty(message = "men.vali.estado.dto")
     private String estadoMensaje;
 
     public String getCodigo() {

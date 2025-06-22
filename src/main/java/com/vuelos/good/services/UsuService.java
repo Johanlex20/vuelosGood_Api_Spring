@@ -12,6 +12,7 @@ import com.vuelos.good.repository.iUsuRepository.iRolRepository;
 import com.vuelos.good.repository.iUsuRepository.iUsuRepository;
 import com.vuelos.good.repository.iUsuRepository.iUsuarioDataRespository;
 import com.vuelos.good.services.iService.iUsuService;
+import com.vuelos.good.services.iService.sistema.iMensajeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +32,9 @@ public class UsuService implements iUsuService {
     @Autowired
     private iDireccionRepository direccionRepository;
 
+    @Autowired
+    private iMensajeService mensajeService;
+
     @Override
     public List<Usuarios> findAll() {
         return usuRepository.findAll();
@@ -43,7 +47,7 @@ public class UsuService implements iUsuService {
 
     @Override
     public Usuarios findById(Integer id) {
-        return usuRepository.findById(id).orElseThrow(()-> new ResourcetNotFoundRequestException("ERROR ID: Id no encontrado en la base de datos!"));
+        return usuRepository.findById(id).orElseThrow(()-> new ResourcetNotFoundRequestException( mensajeService.getMensaje("usu.error.id.usu.notFound","BASICO")));
     }
 
     @Override
@@ -106,7 +110,7 @@ public class UsuService implements iUsuService {
 
     private Rol getRolById(Integer idRol) {
         return rolRepository.findById(idRol)
-                .orElseThrow(() -> new ResourcetNotFoundRequestException("Rol no encontrado con id: " + idRol));
+                .orElseThrow(() -> new ResourcetNotFoundRequestException(mensajeService.getMensaje("men.error.id.rol.notFound","BASICO") + idRol));
     }
 
     private UsuarioData saveUsuData(UsuDataRequestDto usuDataRequestDto, Direccion dir){

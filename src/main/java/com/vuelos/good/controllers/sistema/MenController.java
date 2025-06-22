@@ -2,6 +2,7 @@ package com.vuelos.good.controllers.sistema;
 import com.vuelos.good.dtos.sistema.MensajeRequestDto;
 import com.vuelos.good.entity.sistema.Mensaje;
 import com.vuelos.good.services.iService.sistema.iMensajeService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,12 +33,12 @@ public class MenController {
     }
 
     @PostMapping
-    Mensaje save(@RequestBody MensajeRequestDto mensajeDto){
+    Mensaje save(@RequestBody @Valid MensajeRequestDto mensajeDto){
         return mensajeService.save(mensajeDto);
     }
 
     @PutMapping(value = "/{id}")
-    Mensaje update(@PathVariable(value = "id") Integer id, @RequestBody MensajeRequestDto mensajeDto){
+    Mensaje update(@PathVariable(value = "id") Integer id, @RequestBody @Valid MensajeRequestDto mensajeDto){
         return mensajeService.update(id,mensajeDto);
     }
 
