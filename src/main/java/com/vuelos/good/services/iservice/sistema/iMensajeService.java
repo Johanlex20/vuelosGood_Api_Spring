@@ -1,4 +1,4 @@
-package com.vuelos.good.services.iService.sistema;
+package com.vuelos.good.services.iservice.sistema;
 import com.vuelos.good.dtos.sistema.MensajeRequestDto;
 import com.vuelos.good.entity.sistema.Mensaje;
 import org.springframework.data.domain.Page;

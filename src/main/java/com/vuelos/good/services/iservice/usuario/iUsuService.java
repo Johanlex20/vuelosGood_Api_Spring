@@ -1,6 +1,6 @@
-package com.vuelos.good.services.iService;
-import com.vuelos.good.dtos.UsuRequestDto;
-import com.vuelos.good.entity.Usuarios;
+package com.vuelos.good.services.iservice.usuario;
+import com.vuelos.good.dtos.usuario.UsuRequestDto;
+import com.vuelos.good.entity.usuario.Usuarios;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import java.util.List;

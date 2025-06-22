@@ -1,5 +1,5 @@
-package com.vuelos.good.repository.iUsuRepository;
-import com.vuelos.good.entity.Usuarios;
+package com.vuelos.good.repository.usuario;
+import com.vuelos.good.entity.usuario.Usuarios;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

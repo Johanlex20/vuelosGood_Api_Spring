@@ -1,14 +1,13 @@
-package com.vuelos.good.controllers;
-import com.vuelos.good.dtos.UsuRequestDto;
-import com.vuelos.good.entity.Usuarios;
-import com.vuelos.good.services.iService.iUsuService;
+package com.vuelos.good.controllers.usuario;
+import com.vuelos.good.dtos.usuario.UsuRequestDto;
+import com.vuelos.good.entity.usuario.Usuarios;
+import com.vuelos.good.services.iservice.usuario.iUsuService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 

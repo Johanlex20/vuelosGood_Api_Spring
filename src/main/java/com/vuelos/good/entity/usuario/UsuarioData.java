@@ -1,4 +1,4 @@
-package com.vuelos.good.entity;
+package com.vuelos.good.entity.usuario;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 

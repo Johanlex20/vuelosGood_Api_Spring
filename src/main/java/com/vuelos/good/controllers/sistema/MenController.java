@@ -1,7 +1,7 @@
 package com.vuelos.good.controllers.sistema;
 import com.vuelos.good.dtos.sistema.MensajeRequestDto;
 import com.vuelos.good.entity.sistema.Mensaje;
-import com.vuelos.good.services.iService.sistema.iMensajeService;
+import com.vuelos.good.services.iservice.sistema.iMensajeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

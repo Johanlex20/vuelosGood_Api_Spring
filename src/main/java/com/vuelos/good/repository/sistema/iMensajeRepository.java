@@ -1,4 +1,4 @@
-package com.vuelos.good.repository.iUsuRepository.sistema;
+package com.vuelos.good.repository.sistema;
 import com.vuelos.good.entity.sistema.Mensaje;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

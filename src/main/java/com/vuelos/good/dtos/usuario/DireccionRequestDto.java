@@ -1,4 +1,4 @@
-package com.vuelos.good.dtos;
+package com.vuelos.good.dtos.usuario;
 import jakarta.validation.constraints.NotBlank;
 
 public class DireccionRequestDto {

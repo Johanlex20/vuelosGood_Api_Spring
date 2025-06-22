@@ -1,7 +1,7 @@
 package com.vuelos.good.handler;
 import com.vuelos.good.exceptions.BadRequestException;
 import com.vuelos.good.exceptions.ResourcetNotFoundRequestException;
-import com.vuelos.good.services.iService.sistema.iMensajeService;
+import com.vuelos.good.services.iservice.sistema.iMensajeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;

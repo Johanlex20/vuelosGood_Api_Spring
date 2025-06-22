@@ -1,6 +1,6 @@
-package com.vuelos.good.controllers;
-import com.vuelos.good.services.iService.iAlmacenamientoService;
-import com.vuelos.good.services.iService.iMediaService;
+package com.vuelos.good.controllers.sistema;
+import com.vuelos.good.services.iservice.sistema.iAlmacenamientoService;
+import com.vuelos.good.services.iservice.sistema.iMediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;

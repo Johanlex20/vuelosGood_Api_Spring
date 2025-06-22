@@ -1,4 +1,4 @@
-package com.vuelos.good.entity;
+package com.vuelos.good.entity.usuario;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 

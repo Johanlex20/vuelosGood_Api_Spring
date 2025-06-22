@@ -1,5 +1,5 @@
-package com.vuelos.good.services;
-import com.vuelos.good.services.iService.iAlmacenamientoService;
+package com.vuelos.good.services.sistema;
+import com.vuelos.good.services.iservice.sistema.iAlmacenamientoService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;

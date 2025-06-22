@@ -1,5 +1,5 @@
-package com.vuelos.good.repository.iUsuRepository;
-import com.vuelos.good.entity.UsuarioData;
+package com.vuelos.good.repository.usuario;
+import com.vuelos.good.entity.usuario.UsuarioData;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
