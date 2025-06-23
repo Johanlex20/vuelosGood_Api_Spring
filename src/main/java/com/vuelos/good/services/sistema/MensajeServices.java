@@ -1,4 +1,5 @@
 package com.vuelos.good.services.sistema;
+import com.vuelos.good.component.MensajeCacheLoader;
 import com.vuelos.good.dtos.sistema.MensajeRequestDto;
 import com.vuelos.good.entity.sistema.Mensaje;
 import com.vuelos.good.exceptions.BadRequestException;
@@ -6,6 +7,9 @@ import com.vuelos.good.exceptions.ResourcetNotFoundRequestException;
 import com.vuelos.good.repository.sistema.iMensajeRepository;
 import com.vuelos.good.services.iservice.sistema.iMensajeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,8 +20,16 @@ import java.util.List;
 @Service
 public class MensajeServices implements iMensajeService {
 
+    private static String MENSAJES = "mensajes";
+
     @Autowired
     private iMensajeRepository mensajeRepository;
+
+    @Autowired
+    private CacheManager cacheManager;
+
+    @Autowired
+    private MensajeCacheLoader mensajeCacheLoader;
 
     @Override
     public List<Mensaje> findAll() {
@@ -48,7 +60,10 @@ public class MensajeServices implements iMensajeService {
         }catch (DataAccessException e){
             throw new BadRequestException(getMensaje("men.error.created","BASICO"), e);
         }
-        return mensajeRepository.save(men);
+        Mensaje mensaje = mensajeRepository.save(men);
+        resetCache();
+        return mensaje;
+
     }
 
     @Override
@@ -68,7 +83,9 @@ public class MensajeServices implements iMensajeService {
         }catch (DataAccessException e){
             throw new BadRequestException(getMensaje("men.error.mensaje.updated","BASICO"),e);
         }
-        return mensajeRepository.save(men);
+        Mensaje mensaje = mensajeRepository.save(men);
+        resetCache();
+        return mensaje;
     }
 
     @Override
@@ -81,18 +98,42 @@ public class MensajeServices implements iMensajeService {
 
     @Override
     public String getMensaje(String codigo) {
-        return mensajeRepository.findByCodigo(codigo)
-                .map(Mensaje::getMensaje)
-                .orElse(getMensaje("men.notFound.mensaje","BASICO")+" "+ codigo);
+        return getMensaje(codigo,"BASICO");
     }
+
     @Override
     public String getMensaje(String codigo, String tipo){
-        if (tipo != null && !tipo.isEmpty()) {
-            return mensajeRepository.findByCodigoAndTipo(codigo, tipo)
-                    .map(Mensaje::getMensaje)
-                    .orElseGet(() -> getMensaje(codigo));
+        String key = codigo + "-" + tipo;
+        Cache cache = cacheManager.getCache(MENSAJES);
+        if (cache != null ) {
+            String mensaje = cache.get(key, String.class);
+                if (mensaje != null) {
+                    return mensaje;
+                }
         }
-        return getMensaje(codigo);
+        // Si no está en caché, intenta recuperar desde la BD
+        return mensajeRepository.findByCodigoAndTipo(codigo, tipo)
+                .map(Mensaje::getMensaje)
+                .orElse(getMensaje("men.notFound.mensaje", "BASICO") + " → " + codigo);
+    }
+
+    @CacheEvict(value = "mensajes", allEntries = true)
+    public void resetCache() {
+        mensajeCacheLoader.cargarMensajesEnCache();
+    }
+
+    public void resetMensajesCache() {
+        Cache cache = cacheManager.getCache(MENSAJES);
+        if (cache != null) {
+            cache.clear();
+        }
+
+        List<Mensaje> mensajes = mensajeRepository.findAll();
+        for (Mensaje m : mensajes) {
+            String key = m.getCodigo() + "-" + m.getTipo();
+            cache.put(key, m.getMensaje());
+        }
+        System.out.println(getMensaje("men.cache.restset.manual","BASICO"));
     }
 
 }

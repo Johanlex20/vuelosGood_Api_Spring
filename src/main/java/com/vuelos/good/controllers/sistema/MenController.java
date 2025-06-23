@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,6 +46,12 @@ public class MenController {
     @DeleteMapping(value = "/{id}")
     Boolean delete(@PathVariable(value = "id") Integer id){
         return mensajeService.delete(id);
+    }
+
+    @GetMapping("/rest-cache")
+    public ResponseEntity<String> restCache() {
+       mensajeService.resetMensajesCache();
+       return ResponseEntity.ok(mensajeService.getMensaje("men.cache.reiniciada.mensajes","BASICO"));
     }
 
 }
