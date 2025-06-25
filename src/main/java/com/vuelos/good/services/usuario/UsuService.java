@@ -1,5 +1,6 @@
 package com.vuelos.good.services.usuario;
 import com.vuelos.good.dtos.usuario.DireccionRequestDto;
+import com.vuelos.good.dtos.usuario.RolRequestDto;
 import com.vuelos.good.dtos.usuario.UsuDataRequestDto;
 import com.vuelos.good.dtos.usuario.UsuRequestDto;
 import com.vuelos.good.entity.usuario.Direccion;
@@ -54,7 +55,7 @@ public class UsuService implements iUsuService {
     public Usuarios save(UsuRequestDto usuRequestDto) {
 
             Direccion dir = saveDireccion(usuRequestDto.getUsuarioDataDto().getDireccionRequestDto());
-            Rol rol = getRolById(usuRequestDto.getRolDto().getIdRol());
+            Rol rol = asignarRol(usuRequestDto.getRolDto(),3);
 
             UsuarioData newUsu = saveUsuData(usuRequestDto.getUsuarioDataDto(), dir);
             usuarioDataRespository.save(newUsu);
@@ -71,7 +72,7 @@ public class UsuService implements iUsuService {
     public Usuarios update(Integer id, UsuRequestDto usuRequestDto) {
 
         Direccion dir = saveDireccion(usuRequestDto.getUsuarioDataDto().getDireccionRequestDto());
-        Rol rol = getRolById(usuRequestDto.getRolDto().getIdRol());
+        Rol rol = asignarRol(usuRequestDto.getRolDto(),3);
 
         Usuarios usu = findById(id);
         UsuarioData updateUsu = updateUsuData(usu.getIdUsuarioData(), usuRequestDto.getUsuarioDataDto(), dir);
@@ -102,8 +103,8 @@ public class UsuService implements iUsuService {
     private Direccion saveDireccion(DireccionRequestDto direccionRequestDto) {
         Direccion newDireccion = new Direccion();
         newDireccion.setDireccion(direccionRequestDto.getDireccion());
-        newDireccion.setCiudad(direccionRequestDto.getCiudad());
-        newDireccion.setPais(direccionRequestDto.getPais());
+        newDireccion.setCiudad(direccionRequestDto.getCiudad().toUpperCase());
+        newDireccion.setPais(direccionRequestDto.getPais().toUpperCase());
         newDireccion.setCodigoPostal(direccionRequestDto.getCodigoPostal());
         return direccionRepository.save(newDireccion);
     }
@@ -111,6 +112,13 @@ public class UsuService implements iUsuService {
     private Rol getRolById(Integer idRol) {
         return rolRepository.findById(idRol)
                 .orElseThrow(() -> new ResourcetNotFoundRequestException(mensajeService.getMensaje("men.error.id.rol.notFound","BASICO") + idRol));
+    }
+
+    private Rol asignarRol(RolRequestDto rolDto, Integer idRolDefault){
+        Integer idRol = (rolDto != null && rolDto.getIdRol() != null)
+                ? rolDto.getIdRol()
+                : idRolDefault;
+        return getRolById(idRol);
     }
 
     private UsuarioData saveUsuData(UsuDataRequestDto usuDataRequestDto, Direccion dir){
