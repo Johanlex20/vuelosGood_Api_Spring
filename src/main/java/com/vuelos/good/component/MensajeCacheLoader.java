@@ -6,19 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import java.util.List;
+import java.util.Optional;
 
 @Component
+@Lazy
 public class MensajeCacheLoader {
     private static String MENSAJES = "mensajes";
 
     @Autowired
     private iMensajeRepository mensajeRepository;
-
-    @Autowired
-    private iMensajeService mensajeServices;
 
     @Autowired
     private CacheManager cacheManager;
@@ -34,6 +34,7 @@ public class MensajeCacheLoader {
                 cache.put(key,m.getMensaje());
             }
         }
-        System.out.println(mensajes.size() +" "+ mensajeServices.getMensaje("men.pre.cache.ram.mensajes", "BASICO"));
+        Optional<Mensaje> msg = mensajeRepository.findByCodigoAndTipo("men.pre.cache.ram.mensajes", "BASICO");
+        System.out.println(mensajes.size() + " " + msg.map(Mensaje::getMensaje).orElse("Mensaje no encontrado"));
     }
 }

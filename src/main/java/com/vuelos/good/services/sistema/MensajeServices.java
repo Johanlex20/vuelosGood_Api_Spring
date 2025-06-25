@@ -28,8 +28,7 @@ public class MensajeServices implements iMensajeService {
     @Autowired
     private CacheManager cacheManager;
 
-    @Autowired
-    private MensajeCacheLoader mensajeCacheLoader;
+
 
     @Override
     public List<Mensaje> findAll() {
@@ -119,7 +118,7 @@ public class MensajeServices implements iMensajeService {
 
     @CacheEvict(value = "mensajes", allEntries = true)
     public void resetCache() {
-        mensajeCacheLoader.cargarMensajesEnCache();
+        resetMensajesCache();
     }
 
     public void resetMensajesCache() {
