@@ -25,12 +25,12 @@ public class Usuarios {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id_usuario_data", referencedColumnName = "id_usu_data")
     @JsonIgnoreProperties("usuario")
-    private UsuarioData idUsuarioData;
+    private UsuData idUsuarioData;
 
     public Usuarios() {
     }
 
-    public Usuarios(Integer idUsuario, LocalDate usuCreatedAt, LocalDate usuUpdateAt, Rol rol, UsuarioData idUsuarioData) {
+    public Usuarios(Integer idUsuario, LocalDate usuCreatedAt, LocalDate usuUpdateAt, Rol rol, UsuData idUsuarioData) {
         this.idUsuario = idUsuario;
         this.usuCreatedAt = usuCreatedAt;
         this.usuUpdateAt = usuUpdateAt;
@@ -70,11 +70,11 @@ public class Usuarios {
         this.rol = rol;
     }
 
-    public UsuarioData getIdUsuarioData() {
+    public UsuData getIdUsuarioData() {
         return idUsuarioData;
     }
 
-    public void setIdUsuarioData(UsuarioData idUsuarioData) {
+    public void setIdUsuarioData(UsuData idUsuarioData) {
         this.idUsuarioData = idUsuarioData;
     }
 }

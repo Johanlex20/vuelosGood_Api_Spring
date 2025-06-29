@@ -1,5 +1,5 @@
 package com.vuelos.good.controllers.usuario;
-import com.vuelos.good.dtos.usuario.UsuRequestDto;
+import com.vuelos.good.dtos.usuario.UsuDto;
 import com.vuelos.good.entity.usuario.Usuarios;
 import com.vuelos.good.services.iservice.usuario.iUsuService;
 import jakarta.validation.Valid;
@@ -34,13 +34,13 @@ public class UsuController {
     }
 
     @PostMapping
-    public Usuarios crearUsuario(@RequestBody @Valid UsuRequestDto usuRequestDto ) {
-        return usuService.save(usuRequestDto);
+    public Usuarios crearUsuario(@RequestBody @Valid UsuDto usuDto ) {
+        return usuService.save(usuDto);
     }
 
     @PutMapping(value = "/{id}")
-    public Usuarios update(@PathVariable(value = "id") Integer id, @RequestBody @Valid UsuRequestDto usuRequestDto) {
-        return usuService.update(id, usuRequestDto);
+    public Usuarios update(@PathVariable(value = "id") Integer id, @RequestBody @Valid UsuDto usuDto) {
+        return usuService.update(id, usuDto);
     }
 
     @DeleteMapping(value = "/{id}")

@@ -2,15 +2,15 @@ package com.vuelos.good.dtos.usuario;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
 
-public class UsuRequestDto {
+public class UsuDto {
 
     private Integer idUsuario;
     private LocalDate usuCreatedAt;
     private LocalDate usuUpdateAt;
     @Valid
-    private RolRequestDto rolDto;
+    private RolDto rolDto;
     @Valid
-    private UsuDataRequestDto usuarioDataDto;
+    private UsuDataDto usuarioDataDto;
 
     public Integer getIdUsuario() {
         return idUsuario;
@@ -36,19 +36,19 @@ public class UsuRequestDto {
         this.usuUpdateAt = usuUpdateAt;
     }
 
-    public RolRequestDto getRolDto() {
+    public RolDto getRolDto() {
         return rolDto;
     }
 
-    public void setRolDto(RolRequestDto rolDto) {
+    public void setRolDto(RolDto rolDto) {
         this.rolDto = rolDto;
     }
 
-    public UsuDataRequestDto getUsuarioDataDto() {
+    public UsuDataDto getUsuarioDataDto() {
         return usuarioDataDto;
     }
 
-    public void setUsuarioDataDto(UsuDataRequestDto usuarioDataDto) {
+    public void setUsuarioDataDto(UsuDataDto usuarioDataDto) {
         this.usuarioDataDto = usuarioDataDto;
     }
 }

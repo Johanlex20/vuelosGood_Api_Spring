@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "usuario_data")
-public class UsuarioData {
+public class UsuData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usu_data")
@@ -43,10 +43,10 @@ public class UsuarioData {
     @JsonIgnoreProperties("idUsuarioData")
     private Usuarios usuario;
 
-    public UsuarioData() {
+    public UsuData() {
     }
 
-    public UsuarioData(Long idUsuData, String usuName, String usuLastname, String documento, String email, String password, String celular, String imgUsu, String estadoUsu, Direccion idDireccion, TipoDocumento tipoDocumento,Usuarios usuario) {
+    public UsuData(Long idUsuData, String usuName, String usuLastname, String documento, String email, String password, String celular, String imgUsu, String estadoUsu, Direccion idDireccion, TipoDocumento tipoDocumento, Usuarios usuario) {
         this.idUsuData = idUsuData;
         this.usuName = usuName;
         this.usuLastname = usuLastname;

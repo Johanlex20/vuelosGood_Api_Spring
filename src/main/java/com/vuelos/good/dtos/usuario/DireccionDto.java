@@ -1,7 +1,7 @@
 package com.vuelos.good.dtos.usuario;
 import jakarta.validation.constraints.NotBlank;
 
-public class DireccionRequestDto {
+public class DireccionDto {
 
     @NotBlank(message = "dir.vali.direccion.dto")
     private String direccion;

@@ -2,7 +2,7 @@ package com.vuelos.good.dtos.usuario;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 
-public class UsuDataRequestDto {
+public class UsuDataDto {
 
     @NotBlank(message = "usu.vali.nombre.dto")
     @Size(min = 3, message = "usu.vali.min.nombre.dto")
@@ -37,7 +37,7 @@ public class UsuDataRequestDto {
 
     @Valid
     @NotNull(message = "usu.vali.direccion.dto")
-    private DireccionRequestDto direccionRequestDto;
+    private DireccionDto direccionRequestDto;
 
     public String getUsuName() {
         return usuName;
@@ -103,11 +103,11 @@ public class UsuDataRequestDto {
         this.estadoUsu = estadoUsu;
     }
 
-    public DireccionRequestDto getDireccionRequestDto() {
+    public DireccionDto getDireccionRequestDto() {
         return direccionRequestDto;
     }
 
-    public void setDireccionRequestDto(DireccionRequestDto direccionRequestDto) {
+    public void setDireccionRequestDto(DireccionDto direccionRequestDto) {
         this.direccionRequestDto = direccionRequestDto;
     }
 

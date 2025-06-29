@@ -1,6 +1,6 @@
 package com.vuelos.good.dtos.usuario;
 
-public class RolRequestDto {
+public class RolDto {
     //@NotNull(message = "rol.vali.dto")
     private Integer idRol;
 

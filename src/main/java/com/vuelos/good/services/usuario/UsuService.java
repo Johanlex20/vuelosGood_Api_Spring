@@ -1,8 +1,8 @@
 package com.vuelos.good.services.usuario;
-import com.vuelos.good.dtos.usuario.DireccionRequestDto;
-import com.vuelos.good.dtos.usuario.RolRequestDto;
-import com.vuelos.good.dtos.usuario.UsuDataRequestDto;
-import com.vuelos.good.dtos.usuario.UsuRequestDto;
+import com.vuelos.good.dtos.usuario.DireccionDto;
+import com.vuelos.good.dtos.usuario.RolDto;
+import com.vuelos.good.dtos.usuario.UsuDataDto;
+import com.vuelos.good.dtos.usuario.UsuDto;
 import com.vuelos.good.entity.usuario.*;
 import com.vuelos.good.exceptions.ResourcetNotFoundRequestException;
 import com.vuelos.good.repository.usuario.*;
@@ -49,12 +49,12 @@ public class UsuService implements iUsuService {
     }
 
     @Override
-    public Usuarios save(UsuRequestDto usuRequestDto) {
+    public Usuarios save(UsuDto usuDto) {
 
-            Direccion dir = saveDireccion(usuRequestDto.getUsuarioDataDto().getDireccionRequestDto());
-            Rol rol = asignarRol(usuRequestDto.getRolDto(),3);
+            Direccion dir = saveDireccion(usuDto.getUsuarioDataDto().getDireccionRequestDto());
+            Rol rol = asignarRol(usuDto.getRolDto(),3);
 
-            UsuarioData newUsu = saveUsuData(usuRequestDto.getUsuarioDataDto(), dir);
+            UsuData newUsu = saveUsuData(usuDto.getUsuarioDataDto(), dir);
             usuarioDataRespository.save(newUsu);
 
             Usuarios usu = new Usuarios();
@@ -66,13 +66,13 @@ public class UsuService implements iUsuService {
     }
 
     @Override
-    public Usuarios update(Integer id, UsuRequestDto usuRequestDto) {
+    public Usuarios update(Integer id, UsuDto usuDto) {
 
-        Direccion dir = saveDireccion(usuRequestDto.getUsuarioDataDto().getDireccionRequestDto());
-        Rol rol = asignarRol(usuRequestDto.getRolDto(),3);
+        Direccion dir = saveDireccion(usuDto.getUsuarioDataDto().getDireccionRequestDto());
+        Rol rol = asignarRol(usuDto.getRolDto(),3);
 
         Usuarios usu = findById(id);
-        UsuarioData updateUsu = updateUsuData(usu.getIdUsuarioData(), usuRequestDto.getUsuarioDataDto(), dir);
+        UsuData updateUsu = updateUsuData(usu.getIdUsuarioData(), usuDto.getUsuarioDataDto(), dir);
 
         usu.setRol(rol);
         usu.setIdUsuarioData(updateUsu);
@@ -97,13 +97,13 @@ public class UsuService implements iUsuService {
     }
 
 
-    private Direccion saveDireccion(DireccionRequestDto direccionRequestDto) {
-        Direccion newDireccion = new Direccion();
-        newDireccion.setDireccion(direccionRequestDto.getDireccion());
-        newDireccion.setCiudad(direccionRequestDto.getCiudad().toUpperCase());
-        newDireccion.setPais(direccionRequestDto.getPais().toUpperCase());
-        newDireccion.setCodigoPostal(direccionRequestDto.getCodigoPostal());
-        return direccionRepository.save(newDireccion);
+    private Direccion saveDireccion(DireccionDto dirDto) {
+        Direccion newDir = new Direccion();
+        newDir.setDireccion(dirDto.getDireccion());
+        newDir.setCiudad(dirDto.getCiudad().toUpperCase());
+        newDir.setPais(dirDto.getPais().toUpperCase());
+        newDir.setCodigoPostal(dirDto.getCodigoPostal());
+        return direccionRepository.save(newDir);
     }
 
     private Rol getRolById(Integer idRol) {
@@ -111,7 +111,7 @@ public class UsuService implements iUsuService {
                 .orElseThrow(() -> new ResourcetNotFoundRequestException(mensajeService.getMensaje("men.error.id.rol.notFound","BASICO") + idRol));
     }
 
-    private Rol asignarRol(RolRequestDto rolDto, Integer idRolDefault){
+    private Rol asignarRol(RolDto rolDto, Integer idRolDefault){
         Integer idRol = (rolDto != null && rolDto.getIdRol() != null)
                 ? rolDto.getIdRol()
                 : idRolDefault;
@@ -122,35 +122,35 @@ public class UsuService implements iUsuService {
         return tipoDocumentoRepository.findById(idTipoDoc).orElseThrow(()->new ResourcetNotFoundRequestException(mensajeService.getMensaje("Tipo documento no encontrado!","BASICO") +idTipoDoc));
     }
 
-    private UsuarioData saveUsuData(UsuDataRequestDto usuDataRequestDto, Direccion dir){
-            UsuarioData  newUsu = new UsuarioData();
-            TipoDocumento tipoDoc = getTipoDocById(usuDataRequestDto.getTipoDocDto().getIdTipoDoc());
+    private UsuData saveUsuData(UsuDataDto usuDataDto, Direccion dir){
+            UsuData newUsu = new UsuData();
+            TipoDocumento tipoDoc = getTipoDocById(usuDataDto.getTipoDocDto().getIdTipoDoc());
 
-            newUsu.setUsuName(usuDataRequestDto.getUsuName());
-            newUsu.setUsuLastname(usuDataRequestDto.getUsuLastname());
+            newUsu.setUsuName(usuDataDto.getUsuName());
+            newUsu.setUsuLastname(usuDataDto.getUsuLastname());
             newUsu.setTipoDocumento(tipoDoc);
-            newUsu.setDocumento(usuDataRequestDto.getDocumento());
-            newUsu.setEmail(usuDataRequestDto.getEmail());
-            newUsu.setPassword(usuDataRequestDto.getPassword());
-            newUsu.setCelular(usuDataRequestDto.getCelular());
-            newUsu.setImgUsu(usuDataRequestDto.getImgUsu());
-            newUsu.setEstadoUsu(usuDataRequestDto.getEstadoUsu());
+            newUsu.setDocumento(usuDataDto.getDocumento());
+            newUsu.setEmail(usuDataDto.getEmail());
+            newUsu.setPassword(usuDataDto.getPassword());
+            newUsu.setCelular(usuDataDto.getCelular());
+            newUsu.setImgUsu(usuDataDto.getImgUsu());
+            newUsu.setEstadoUsu(usuDataDto.getEstadoUsu());
             newUsu.setIdDireccion(dir);
             return usuarioDataRespository.save(newUsu);
     }
 
-    private UsuarioData updateUsuData(UsuarioData updateUsu, UsuDataRequestDto usuDataRequestDto, Direccion dir){
-        TipoDocumento tipoDoc = getTipoDocById(usuDataRequestDto.getTipoDocDto().getIdTipoDoc());
+    private UsuData updateUsuData(UsuData updateUsu, UsuDataDto usuDataDto, Direccion dir){
+        TipoDocumento tipoDoc = getTipoDocById(usuDataDto.getTipoDocDto().getIdTipoDoc());
 
-        updateUsu.setUsuName(usuDataRequestDto.getUsuName());
-        updateUsu.setUsuLastname(usuDataRequestDto.getUsuLastname());
-        updateUsu.setDocumento(usuDataRequestDto.getDocumento());
+        updateUsu.setUsuName(usuDataDto.getUsuName());
+        updateUsu.setUsuLastname(usuDataDto.getUsuLastname());
+        updateUsu.setDocumento(usuDataDto.getDocumento());
         updateUsu.setTipoDocumento(tipoDoc);
-        updateUsu.setEmail(usuDataRequestDto.getEmail());
-        updateUsu.setPassword(usuDataRequestDto.getPassword());
-        updateUsu.setCelular(usuDataRequestDto.getCelular());
-        updateUsu.setImgUsu(usuDataRequestDto.getImgUsu());
-        updateUsu.setEstadoUsu(usuDataRequestDto.getEstadoUsu());
+        updateUsu.setEmail(usuDataDto.getEmail());
+        updateUsu.setPassword(usuDataDto.getPassword());
+        updateUsu.setCelular(usuDataDto.getCelular());
+        updateUsu.setImgUsu(usuDataDto.getImgUsu());
+        updateUsu.setEstadoUsu(usuDataDto.getEstadoUsu());
         updateUsu.setIdDireccion(dir);
 
         return usuarioDataRespository.save(updateUsu);

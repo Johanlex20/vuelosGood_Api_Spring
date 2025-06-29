@@ -1,5 +1,5 @@
 package com.vuelos.good.services.iservice.usuario;
-import com.vuelos.good.dtos.usuario.UsuRequestDto;
+import com.vuelos.good.dtos.usuario.UsuDto;
 import com.vuelos.good.entity.usuario.Usuarios;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,9 +12,9 @@ public interface iUsuService {
 
     Usuarios findById(Integer id);
 
-    Usuarios save(UsuRequestDto usuRequestDto);
+    Usuarios save(UsuDto usuDto);
 
-    Usuarios update(Integer id, UsuRequestDto usuRequestDto);
+    Usuarios update(Integer id, UsuDto usuDto);
 
     Boolean delete(Integer id);
 
