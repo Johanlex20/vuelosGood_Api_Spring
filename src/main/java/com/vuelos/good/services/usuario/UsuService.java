@@ -3,15 +3,9 @@ import com.vuelos.good.dtos.usuario.DireccionRequestDto;
 import com.vuelos.good.dtos.usuario.RolRequestDto;
 import com.vuelos.good.dtos.usuario.UsuDataRequestDto;
 import com.vuelos.good.dtos.usuario.UsuRequestDto;
-import com.vuelos.good.entity.usuario.Direccion;
-import com.vuelos.good.entity.usuario.Rol;
-import com.vuelos.good.entity.usuario.UsuarioData;
-import com.vuelos.good.entity.usuario.Usuarios;
+import com.vuelos.good.entity.usuario.*;
 import com.vuelos.good.exceptions.ResourcetNotFoundRequestException;
-import com.vuelos.good.repository.usuario.iDireccionRepository;
-import com.vuelos.good.repository.usuario.iRolRepository;
-import com.vuelos.good.repository.usuario.iUsuRepository;
-import com.vuelos.good.repository.usuario.iUsuarioDataRespository;
+import com.vuelos.good.repository.usuario.*;
 import com.vuelos.good.services.iservice.usuario.iUsuService;
 import com.vuelos.good.services.iservice.sistema.iMensajeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +29,9 @@ public class UsuService implements iUsuService {
 
     @Autowired
     private iMensajeService mensajeService;
+
+    @Autowired
+    private iTipoDocumentoRepository tipoDocumentoRepository;
 
     @Override
     public List<Usuarios> findAll() {
@@ -121,10 +118,17 @@ public class UsuService implements iUsuService {
         return getRolById(idRol);
     }
 
+    private TipoDocumento getTipoDocById(Integer idTipoDoc){
+        return tipoDocumentoRepository.findById(idTipoDoc).orElseThrow(()->new ResourcetNotFoundRequestException(mensajeService.getMensaje("Tipo documento no encontrado!","BASICO") +idTipoDoc));
+    }
+
     private UsuarioData saveUsuData(UsuDataRequestDto usuDataRequestDto, Direccion dir){
             UsuarioData  newUsu = new UsuarioData();
+            TipoDocumento tipoDoc = getTipoDocById(usuDataRequestDto.getTipoDocDto().getIdTipoDoc());
+
             newUsu.setUsuName(usuDataRequestDto.getUsuName());
             newUsu.setUsuLastname(usuDataRequestDto.getUsuLastname());
+            newUsu.setTipoDocumento(tipoDoc);
             newUsu.setDocumento(usuDataRequestDto.getDocumento());
             newUsu.setEmail(usuDataRequestDto.getEmail());
             newUsu.setPassword(usuDataRequestDto.getPassword());
@@ -136,9 +140,12 @@ public class UsuService implements iUsuService {
     }
 
     private UsuarioData updateUsuData(UsuarioData updateUsu, UsuDataRequestDto usuDataRequestDto, Direccion dir){
+        TipoDocumento tipoDoc = getTipoDocById(usuDataRequestDto.getTipoDocDto().getIdTipoDoc());
+
         updateUsu.setUsuName(usuDataRequestDto.getUsuName());
         updateUsu.setUsuLastname(usuDataRequestDto.getUsuLastname());
         updateUsu.setDocumento(usuDataRequestDto.getDocumento());
+        updateUsu.setTipoDocumento(tipoDoc);
         updateUsu.setEmail(usuDataRequestDto.getEmail());
         updateUsu.setPassword(usuDataRequestDto.getPassword());
         updateUsu.setCelular(usuDataRequestDto.getCelular());

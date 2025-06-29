@@ -1,5 +1,4 @@
 package com.vuelos.good.dtos.usuario;
-import jakarta.validation.constraints.NotNull;
 
 public class RolRequestDto {
     //@NotNull(message = "rol.vali.dto")

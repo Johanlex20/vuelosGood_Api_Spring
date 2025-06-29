@@ -15,6 +15,10 @@ public class UsuDataRequestDto {
     private String usuLastname;
     @NotBlank(message = "usu.vali.documento.dto")
     private String documento;
+
+    @Valid
+    @NotNull(message = "usu.vali.tipoDoc.dto")
+    private TipoDocDto tipoDocDto;
     @NotNull(message = "usu.vali.email.dto")
     @Email(message = "usu.vali.email.formato.dto")
     private String email;
@@ -105,5 +109,13 @@ public class UsuDataRequestDto {
 
     public void setDireccionRequestDto(DireccionRequestDto direccionRequestDto) {
         this.direccionRequestDto = direccionRequestDto;
+    }
+
+    public TipoDocDto getTipoDocDto() {
+        return tipoDocDto;
+    }
+
+    public void setTipoDocDto(TipoDocDto tipoDocDto) {
+        this.tipoDocDto = tipoDocDto;
     }
 }

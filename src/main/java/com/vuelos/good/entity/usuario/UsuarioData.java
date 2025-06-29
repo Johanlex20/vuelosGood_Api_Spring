@@ -35,6 +35,10 @@ public class UsuarioData {
     @JoinColumn(name = "id_direccion")
     private Direccion idDireccion;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "tipo_doc")
+    private TipoDocumento tipoDocumento;
+
     @OneToOne(mappedBy = "idUsuarioData" )
     @JsonIgnoreProperties("idUsuarioData")
     private Usuarios usuario;
@@ -42,7 +46,7 @@ public class UsuarioData {
     public UsuarioData() {
     }
 
-    public UsuarioData(Long idUsuData, String usuName, String usuLastname, String documento, String email, String password, String celular, String imgUsu, String estadoUsu, Direccion idDireccion, Usuarios usuario) {
+    public UsuarioData(Long idUsuData, String usuName, String usuLastname, String documento, String email, String password, String celular, String imgUsu, String estadoUsu, Direccion idDireccion, TipoDocumento tipoDocumento,Usuarios usuario) {
         this.idUsuData = idUsuData;
         this.usuName = usuName;
         this.usuLastname = usuLastname;
@@ -53,6 +57,7 @@ public class UsuarioData {
         this.imgUsu = imgUsu;
         this.estadoUsu = estadoUsu;
         this.idDireccion = idDireccion;
+        this.tipoDocumento = tipoDocumento;
         this.usuario = usuario;
     }
 
@@ -142,5 +147,13 @@ public class UsuarioData {
 
     public void setUsuario(Usuarios usuario) {
         this.usuario = usuario;
+    }
+
+    public TipoDocumento getTipoDocumento() {
+        return tipoDocumento;
+    }
+
+    public void setTipoDocumento(TipoDocumento tipoDocumento) {
+        this.tipoDocumento = tipoDocumento;
     }
 }
