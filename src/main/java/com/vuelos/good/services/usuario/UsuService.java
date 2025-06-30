@@ -1,11 +1,10 @@
 package com.vuelos.good.services.usuario;
-import com.vuelos.good.dtos.usuario.DireccionDto;
-import com.vuelos.good.dtos.usuario.RolDto;
 import com.vuelos.good.dtos.usuario.UsuDataDto;
 import com.vuelos.good.dtos.usuario.UsuDto;
 import com.vuelos.good.entity.usuario.*;
 import com.vuelos.good.exceptions.ResourcetNotFoundRequestException;
 import com.vuelos.good.repository.usuario.*;
+import com.vuelos.good.services.iservice.usuario.iRolService;
 import com.vuelos.good.services.iservice.usuario.iUsuService;
 import com.vuelos.good.services.iservice.sistema.iMensajeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +24,14 @@ public class UsuService implements iUsuService {
     @Autowired
     private iRolRepository rolRepository;
     @Autowired
-    private iDireccionRepository direccionRepository;
-
+    private DirService dirService;
     @Autowired
     private iMensajeService mensajeService;
-
     @Autowired
     private iTipoDocumentoRepository tipoDocumentoRepository;
+    @Autowired
+    private iRolService rolService;
+
 
     @Override
     public List<Usuarios> findAll() {
@@ -51,8 +51,8 @@ public class UsuService implements iUsuService {
     @Override
     public Usuarios save(UsuDto usuDto) {
 
-            Direccion dir = saveDireccion(usuDto.getUsuarioDataDto().getDireccionRequestDto());
-            Rol rol = asignarRol(usuDto.getRolDto(),3);
+            Direccion dir = dirService.saveDireccion(usuDto.getUsuarioDataDto().getDireccionRequestDto());
+            Rol rol = rolService.asignarRol(usuDto.getRolDto(),3);
 
             UsuData newUsu = saveUsuData(usuDto.getUsuarioDataDto(), dir);
             usuarioDataRespository.save(newUsu);
@@ -68,8 +68,8 @@ public class UsuService implements iUsuService {
     @Override
     public Usuarios update(Integer id, UsuDto usuDto) {
 
-        Direccion dir = saveDireccion(usuDto.getUsuarioDataDto().getDireccionRequestDto());
-        Rol rol = asignarRol(usuDto.getRolDto(),3);
+        Direccion dir = dirService.saveDireccion(usuDto.getUsuarioDataDto().getDireccionRequestDto());
+        Rol rol = rolService.asignarRol(usuDto.getRolDto(),3);
 
         Usuarios usu = findById(id);
         UsuData updateUsu = updateUsuData(usu.getIdUsuarioData(), usuDto.getUsuarioDataDto(), dir);
@@ -96,30 +96,8 @@ public class UsuService implements iUsuService {
         return usuRepository.save(usu);
     }
 
-
-    private Direccion saveDireccion(DireccionDto dirDto) {
-        Direccion newDir = new Direccion();
-        newDir.setDireccion(dirDto.getDireccion());
-        newDir.setCiudad(dirDto.getCiudad().toUpperCase());
-        newDir.setPais(dirDto.getPais().toUpperCase());
-        newDir.setCodigoPostal(dirDto.getCodigoPostal());
-        return direccionRepository.save(newDir);
-    }
-
-    private Rol getRolById(Integer idRol) {
-        return rolRepository.findById(idRol)
-                .orElseThrow(() -> new ResourcetNotFoundRequestException(mensajeService.getMensaje("men.error.id.rol.notFound","BASICO") + idRol));
-    }
-
-    private Rol asignarRol(RolDto rolDto, Integer idRolDefault){
-        Integer idRol = (rolDto != null && rolDto.getIdRol() != null)
-                ? rolDto.getIdRol()
-                : idRolDefault;
-        return getRolById(idRol);
-    }
-
     private TipoDocumento getTipoDocById(Integer idTipoDoc){
-        return tipoDocumentoRepository.findById(idTipoDoc).orElseThrow(()->new ResourcetNotFoundRequestException(mensajeService.getMensaje("Tipo documento no encontrado!","BASICO") +idTipoDoc));
+        return tipoDocumentoRepository.findById(idTipoDoc).orElseThrow(()->new ResourcetNotFoundRequestException(mensajeService.getMensaje("usu.tipoDoc.notFound","BASICO") +" "+idTipoDoc));
     }
 
     private UsuData saveUsuData(UsuDataDto usuDataDto, Direccion dir){
