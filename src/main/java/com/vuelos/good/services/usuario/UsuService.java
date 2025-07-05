@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
@@ -33,6 +34,9 @@ public class UsuService implements iUsuService {
     private iTipoDocumentoRepository tipoDocumentoRepository;
     @Autowired
     private iRolService rolService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -142,7 +146,7 @@ public class UsuService implements iUsuService {
                 newUsu.setTipoDocumento(tipoDoc);
                 newUsu.setDocumento(usuDataDto.getDocumento());
                 newUsu.setEmail(usuDataDto.getEmail());
-                newUsu.setPassword(usuDataDto.getPassword());
+                newUsu.setPassword(passwordEncoder.encode(usuDataDto.getPassword()));
                 newUsu.setCelular(usuDataDto.getCelular());
                 newUsu.setImgUsu(usuDataDto.getImgUsu());
                 newUsu.setEstadoUsu(usuDataDto.getEstadoUsu());
@@ -158,7 +162,7 @@ public class UsuService implements iUsuService {
         updateUsu.setDocumento(usuDataDto.getDocumento());
         updateUsu.setTipoDocumento(tipoDoc);
         updateUsu.setEmail(usuDataDto.getEmail());
-        updateUsu.setPassword(usuDataDto.getPassword());
+        updateUsu.setPassword(passwordEncoder.encode(usuDataDto.getPassword()));
         updateUsu.setCelular(usuDataDto.getCelular());
         updateUsu.setImgUsu(usuDataDto.getImgUsu());
         updateUsu.setEstadoUsu(usuDataDto.getEstadoUsu());
