@@ -16,13 +16,15 @@ public class UsuData {
     @Column(name = "usu_lastname")
     private String usuLastname;
 
-    @Column(name = "usu_documento")
+    @Column(name = "usu_documento", unique = true)
     private String documento;
 
+    @Column(unique = true)
     private String email;
 
     private String password;
 
+    @Column(unique = true)
     private String celular;
 
     @Column(name = "img_usu")

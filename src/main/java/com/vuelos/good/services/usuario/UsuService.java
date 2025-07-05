@@ -2,12 +2,14 @@ package com.vuelos.good.services.usuario;
 import com.vuelos.good.dtos.usuario.UsuDataDto;
 import com.vuelos.good.dtos.usuario.UsuDto;
 import com.vuelos.good.entity.usuario.*;
+import com.vuelos.good.exceptions.BadRequestException;
 import com.vuelos.good.exceptions.ResourcetNotFoundRequestException;
 import com.vuelos.good.repository.usuario.*;
 import com.vuelos.good.services.iservice.usuario.iRolService;
 import com.vuelos.good.services.iservice.usuario.iUsuService;
 import com.vuelos.good.services.iservice.sistema.iMensajeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -51,33 +53,64 @@ public class UsuService implements iUsuService {
     @Override
     public Usuarios save(UsuDto usuDto) {
 
-            Direccion dir = dirService.saveDireccion(usuDto.getUsuarioDataDto().getDireccionRequestDto());
-            Rol rol = rolService.asignarRol(usuDto.getRolDto(),3);
+            boolean usuExists = usuarioDataRespository.existsByEmail(usuDto.getUsuarioDataDto().getEmail());
+            boolean docExists = usuarioDataRespository.existsByDocumento(usuDto.getUsuarioDataDto().getDocumento());
+            boolean celExists = usuarioDataRespository.existsByCelular(usuDto.getUsuarioDataDto().getCelular());
 
-            UsuData newUsu = saveUsuData(usuDto.getUsuarioDataDto(), dir);
-            usuarioDataRespository.save(newUsu);
+            if (usuExists){
+                throw new BadRequestException(mensajeService.getMensaje("usu.error.email.duplicado","BASICO"));
+            } else if (docExists) {
+                throw new BadRequestException(mensajeService.getMensaje("usu.error.doc.duplicado","BASICO"));
+            } else if (celExists) {
+                throw new BadRequestException(mensajeService.getMensaje("usu.error.cel.duplicado","BASICO"));
+            }
 
-            Usuarios usu = new Usuarios();
-            usu.setRol(rol);
-            usu.setIdUsuarioData(newUsu);
-            usu.setUsuCreatedAt(LocalDate.now());
+        try{
+                Direccion dir = dirService.saveDireccion(usuDto.getUsuarioDataDto().getDireccionRequestDto());
+                Rol rol = rolService.asignarRol(usuDto.getRolDto(),3);
+                UsuData newUsu = saveUsuData(usuDto.getUsuarioDataDto(), dir);
+                usuarioDataRespository.save(newUsu);
 
-        return usuRepository.save(usu);
+                Usuarios usu = new Usuarios();
+                usu.setRol(rol);
+                usu.setIdUsuarioData(newUsu);
+                usu.setUsuCreatedAt(LocalDate.now());
+
+                return usuRepository.save(usu);
+
+            }catch (DataAccessException e){
+                throw new BadRequestException(mensajeService.getMensaje("usu.error.created","BASICO"), e);
+            }
     }
 
     @Override
     public Usuarios update(Integer id, UsuDto usuDto) {
 
-        Direccion dir = dirService.saveDireccion(usuDto.getUsuarioDataDto().getDireccionRequestDto());
-        Rol rol = rolService.asignarRol(usuDto.getRolDto(),3);
-
         Usuarios usu = findById(id);
-        UsuData updateUsu = updateUsuData(usu.getIdUsuarioData(), usuDto.getUsuarioDataDto(), dir);
+        boolean usuExists = usuarioDataRespository.existsByEmailAndIdUsuDataNot(usuDto.getUsuarioDataDto().getEmail(), id);
+        boolean docExists = usuarioDataRespository.existsByDocumentoAndIdUsuDataNot(usuDto.getUsuarioDataDto().getDocumento(), id);
+        boolean celExists = usuarioDataRespository.existsByCelularAndIdUsuDataNot(usuDto.getUsuarioDataDto().getCelular(), id);
 
-        usu.setRol(rol);
-        usu.setIdUsuarioData(updateUsu);
-        usu.setUsuUpdateAt(LocalDate.now());
 
+        if (usuExists){
+            throw new BadRequestException(mensajeService.getMensaje("usu.error.email.duplicado","BASICO"));
+        } else if (docExists) {
+            throw new BadRequestException(mensajeService.getMensaje("usu.error.doc.duplicado","BASICO"));
+        } else if (celExists) {
+            throw new BadRequestException(mensajeService.getMensaje("usu.error.cel.duplicado","BASICO"));
+        }
+
+        try {
+            Direccion dir = dirService.saveDireccion(usuDto.getUsuarioDataDto().getDireccionRequestDto());
+            Rol rol = rolService.asignarRol(usuDto.getRolDto(),3);
+            UsuData updateUsu = updateUsuData(usu.getIdUsuarioData(), usuDto.getUsuarioDataDto(), dir);
+
+            usu.setRol(rol);
+            usu.setIdUsuarioData(updateUsu);
+            usu.setUsuUpdateAt(LocalDate.now());
+        }catch (DataAccessException e){
+            throw new BadRequestException(mensajeService.getMensaje("usu.error.updated","BASICO"), e);
+        }
         return usuRepository.save(usu);
     }
 
@@ -101,25 +134,25 @@ public class UsuService implements iUsuService {
     }
 
     private UsuData saveUsuData(UsuDataDto usuDataDto, Direccion dir){
-            UsuData newUsu = new UsuData();
-            TipoDocumento tipoDoc = getTipoDocById(usuDataDto.getTipoDocDto().getIdTipoDoc());
 
-            newUsu.setUsuName(usuDataDto.getUsuName());
-            newUsu.setUsuLastname(usuDataDto.getUsuLastname());
-            newUsu.setTipoDocumento(tipoDoc);
-            newUsu.setDocumento(usuDataDto.getDocumento());
-            newUsu.setEmail(usuDataDto.getEmail());
-            newUsu.setPassword(usuDataDto.getPassword());
-            newUsu.setCelular(usuDataDto.getCelular());
-            newUsu.setImgUsu(usuDataDto.getImgUsu());
-            newUsu.setEstadoUsu(usuDataDto.getEstadoUsu());
-            newUsu.setIdDireccion(dir);
-            return usuarioDataRespository.save(newUsu);
+        UsuData newUsu = new UsuData();
+                TipoDocumento tipoDoc = getTipoDocById(usuDataDto.getTipoDocDto().getIdTipoDoc());
+                newUsu.setUsuName(usuDataDto.getUsuName());
+                newUsu.setUsuLastname(usuDataDto.getUsuLastname());
+                newUsu.setTipoDocumento(tipoDoc);
+                newUsu.setDocumento(usuDataDto.getDocumento());
+                newUsu.setEmail(usuDataDto.getEmail());
+                newUsu.setPassword(usuDataDto.getPassword());
+                newUsu.setCelular(usuDataDto.getCelular());
+                newUsu.setImgUsu(usuDataDto.getImgUsu());
+                newUsu.setEstadoUsu(usuDataDto.getEstadoUsu());
+                newUsu.setIdDireccion(dir);
+                return usuarioDataRespository.save(newUsu);
     }
 
     private UsuData updateUsuData(UsuData updateUsu, UsuDataDto usuDataDto, Direccion dir){
-        TipoDocumento tipoDoc = getTipoDocById(usuDataDto.getTipoDocDto().getIdTipoDoc());
 
+        TipoDocumento tipoDoc = getTipoDocById(usuDataDto.getTipoDocDto().getIdTipoDoc());
         updateUsu.setUsuName(usuDataDto.getUsuName());
         updateUsu.setUsuLastname(usuDataDto.getUsuLastname());
         updateUsu.setDocumento(usuDataDto.getDocumento());
