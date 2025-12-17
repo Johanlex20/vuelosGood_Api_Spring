@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.vuelos.good</groupId>
-	<artifactId>Vuelos-Good</artifactId>
+	<artifactId>vuelosGoodApiSpring</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Vuelos-Good</name>
 	<description>Demo project for Spring Boot</description>
