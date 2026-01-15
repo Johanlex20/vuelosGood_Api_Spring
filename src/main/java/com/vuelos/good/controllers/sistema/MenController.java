@@ -48,10 +48,15 @@ public class MenController {
         return mensajeService.delete(id);
     }
 
-    @GetMapping("/rest-cache")
+  /*  @GetMapping("/rest-cache")
     public ResponseEntity<String> restCache() {
        mensajeService.resetMensajesCache();
        return ResponseEntity.ok(mensajeService.getMensaje("men.cache.reiniciada.mensajes","BASICO"));
-    }
+    }*/
+
+ /*   @GetMapping("/list-mensaje")
+    public String listarUsuario(){
+        return mensajeService.getMensaje("lista de mensajes Usuario");
+    }*/
 
 }

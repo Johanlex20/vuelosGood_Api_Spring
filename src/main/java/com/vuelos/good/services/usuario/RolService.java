@@ -30,4 +30,10 @@ public class RolService implements iRolService {
                 : idRolDefault;
         return getRolById(idRol);
     }
+
+   /* public Rol asinarRol(RolDto rolDto, Integer idRolDefault){
+        Object RolDto = null;
+        Integer numero = rolDto.getIdRol();
+        return getRolById(rolDto.getIdRol());
+    }*/
 }

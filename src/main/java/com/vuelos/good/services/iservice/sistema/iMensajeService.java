@@ -22,7 +22,7 @@ public interface iMensajeService {
 
     String getMensaje(String codigo, String tipo);
 
-    void resetCache();
+   /* void resetCache();
 
-    void resetMensajesCache();
+    void resetMensajesCache();*/
 }

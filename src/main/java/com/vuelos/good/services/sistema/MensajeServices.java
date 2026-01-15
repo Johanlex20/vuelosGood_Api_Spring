@@ -60,7 +60,7 @@ public class MensajeServices implements iMensajeService {
             throw new BadRequestException(getMensaje("men.error.created","BASICO"), e);
         }
         Mensaje mensaje = mensajeRepository.save(men);
-        resetCache();
+      /*  resetCache();*/
         return mensaje;
 
     }
@@ -83,7 +83,7 @@ public class MensajeServices implements iMensajeService {
             throw new BadRequestException(getMensaje("men.error.mensaje.updated","BASICO"),e);
         }
         Mensaje mensaje = mensajeRepository.save(men);
-        resetCache();
+        /*resetCache();*/
         return mensaje;
     }
 
@@ -104,24 +104,25 @@ public class MensajeServices implements iMensajeService {
     public String getMensaje(String codigo, String tipo){
         String key = codigo + "-" + tipo;
         Cache cache = cacheManager.getCache(MENSAJES);
-        if (cache != null ) {
+
+        if (cache != null) {
             String mensaje = cache.get(key, String.class);
-                if (mensaje != null) {
-                    return mensaje;
-                }
+            if (mensaje != null) {
+                return mensaje;
+            }
         }
-        // Si no está en caché, intenta recuperar desde la BD
+
         return mensajeRepository.findByCodigoAndTipo(codigo, tipo)
                 .map(Mensaje::getMensaje)
-                .orElse(getMensaje("men.notFound.mensaje", "BASICO") + " → " + codigo);
+                .orElse("Mensaje no encontrado → " + codigo);
     }
 
-    @CacheEvict(value = "mensajes", allEntries = true)
+    /*@CacheEvict(value = "mensajes", allEntries = true)
     public void resetCache() {
         resetMensajesCache();
-    }
+    }*/
 
-    public void resetMensajesCache() {
+    /*public void resetMensajesCache() {
         Cache cache = cacheManager.getCache(MENSAJES);
         if (cache != null) {
             cache.clear();
@@ -133,6 +134,6 @@ public class MensajeServices implements iMensajeService {
             cache.put(key, m.getMensaje());
         }
         System.out.println(getMensaje("men.cache.restset.manual","BASICO"));
-    }
+    }*/
 
 }
