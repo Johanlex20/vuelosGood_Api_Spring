@@ -14,7 +14,10 @@ public class ConfiguracionWeb {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")
-                        .allowedOrigins("http://localhost:4200")
+                        .allowedOrigins(
+                                "http://localhost:4200",
+                                "http://localhost:4208"
+                        )
                         .allowedMethods("*")
                         .exposedHeaders("*")
                         .allowCredentials(true);
